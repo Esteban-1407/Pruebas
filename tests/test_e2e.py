@@ -1,3 +1,5 @@
+import sys
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -5,6 +7,9 @@ from sqlalchemy.orm import sessionmaker
 from main import app, get_db
 from database import Base
 import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 # Base de datos de prueba (SQLite en memoria)
 TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", "sqlite:///./test_e2e_library.db")
