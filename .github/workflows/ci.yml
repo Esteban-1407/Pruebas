@@ -61,14 +61,14 @@ jobs:
         echo "=== RUNNING INTEGRATION TESTS ==="
         pytest tests/test_integration.py -v
       env:
-        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5433/biblioteca_digital
+        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5432/biblioteca_digital
 
     - name: Run E2E Tests
       run: |
         echo "=== RUNNING E2E TESTS ==="
         pytest tests/test_e2e.py -v
       env:
-        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5433/biblioteca_digital
+        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5432/biblioteca_digital
 
     - name: Success Message
       run: |
