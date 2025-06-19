@@ -14,9 +14,9 @@ jobs:
       postgres:
         image: postgres:13
         env:
-          POSTGRES_PASSWORD: password
+          POSTGRES_PASSWORD: postgress
           POSTGRES_USER: postgres
-          POSTGRES_DB: testdb
+          POSTGRES_DB: biblioteca_digital
         ports:
           - 5432:5432
         options: >-
@@ -30,7 +30,7 @@ jobs:
         env:
           POSTGRES_PASSWORD: password
           POSTGRES_USER: postgres
-          POSTGRES_DB: testdb_test
+          POSTGRES_DB: biblioteca_digital
         ports:
           - 5433:5432
         options: >-
@@ -61,14 +61,14 @@ jobs:
         echo "=== RUNNING INTEGRATION TESTS ==="
         pytest tests/test_integration.py -v
       env:
-        TEST_DATABASE_URL: postgresql://postgres:password@localhost:5433/testdb_test
+        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5433/biblioteca_digital
 
     - name: Run E2E Tests
       run: |
         echo "=== RUNNING E2E TESTS ==="
         pytest tests/test_e2e.py -v
       env:
-        TEST_DATABASE_URL: postgresql://postgres:password@localhost:5433/testdb_test
+        TEST_DATABASE_URL: postgresql://postgres:postgress@localhost:5433/biblioteca_digital
 
     - name: Success Message
       run: |
