@@ -1,4 +1,7 @@
 import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import pytest
 from sqlalchemy import create_engine
@@ -6,8 +9,6 @@ from sqlalchemy.orm import sessionmaker
 from database import Base
 from models import Author, Book, Loan
 from datetime import datetime
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
 # Base de datos de prueba (SQLite en memoria)
