@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # URL de conexión a PostgreSQL
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgress@localhost/biblioteca_digital"
+SQLALCHEMY_DATABASE_URL = "postgresql://postgres:postgress@localhost:5432/biblioteca_digital"
 
 # Crear el engine
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
