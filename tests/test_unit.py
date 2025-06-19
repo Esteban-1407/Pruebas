@@ -1,5 +1,11 @@
+import os
+import sys
+
 from main import validate_author_data, transform_book_data, calculate_loan_statistics
 from models import AuthorCreate, BookCreate
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 
 
 class MockLoan:
