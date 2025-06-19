@@ -1,0 +1,78 @@
+name: Biblioteca Digital CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+      postgres-test:
+        image: postgres:13
+        env:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_DB: testdb_test
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Unit Tests
+      run: |
+        echo "=== RUNNING UNIT TESTS ==="
+        pytest tests/test_unit.py -v
+
+    - name: Run Integration Tests
+      run: |
+        echo "=== RUNNING INTEGRATION TESTS ==="
+        pytest tests/test_integration.py -v
+      env:
+        TEST_DATABASE_URL: postgresql://postgres:password@localhost:5433/testdb_test
+
+    - name: Run E2E Tests
+      run: |
+        echo "=== RUNNING E2E TESTS ==="
+        pytest tests/test_e2e.py -v
+      env:
+        TEST_DATABASE_URL: postgresql://postgres:password@localhost:5433/testdb_test
+
+    - name: Success Message
+      run: |
+        echo "🎉 =================================="
+        echo "🎉 DEPLOYMENT APPROVED - ALL TESTS SUCCESSFUL!"
+        echo "🎉 Biblioteca Digital lista para despliegue"
+        echo "🎉 =================================="
