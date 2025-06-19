@@ -11,9 +11,15 @@ from models import Author, Book, Loan
 from datetime import datetime
 
 
-# Base de datos de prueba (SQLite en memoria)
 TEST_DATABASE_URL = os.getenv("TEST_DATABASE_URL", "sqlite:///./test_library.db")
-test_engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+
+# Detectar si es SQLite y usar connect_args solo en ese caso
+if TEST_DATABASE_URL.startswith("sqlite"):
+    test_engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    test_engine = create_engine(TEST_DATABASE_URL)
+
+# Crear sesión para pruebas
 TestSession = sessionmaker(bind=test_engine)
 
 
